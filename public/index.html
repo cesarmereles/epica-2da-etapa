@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <title>Consultas</title>
+</head>
+<body>
+    <form action="/post" method="POST">
+        <label for="title">Titulo<br>
+            <input type="text" name="title">
+        </label><br>
+        <label for="description">Descripcion<br>
+            <textarea name="description" cols="30" rows="10"></textarea>
+        </label><br>
+        <label for="image">Imagen<br>
+            <input type="url" name="image">
+        </label><br>
+        <button>Crear</button>
+    </form>
+    <script type="module" src="./main.js"></script>
+</body>
+</html>
