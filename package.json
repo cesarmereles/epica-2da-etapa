@@ -1,7 +1,6 @@
 {
   "name": "comision-2-clase-1",
   "version": "1.0.0",
-  "description": "",
   "main": "app.js",
   "type": "module",
   "scripts": {
@@ -13,10 +12,12 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.18.2",
+    "express-validator": "^7.0.1",
     "helmet": "^7.0.0",
     "morgan": "^1.10.0"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
-  }
+  },
+  "description": ""
 }

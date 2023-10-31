@@ -1,5 +1,6 @@
 // process.exit(1)
 import { posts } from "../models/post-model.js";
+import {validationResult} from "express-validator"
 export const ctrolGetAllPost = (req, res, next) => {
   //res.status(200).send('metodo GET')
   try {
@@ -8,6 +9,7 @@ export const ctrolGetAllPost = (req, res, next) => {
     if (posts.length < 1) {
       return res.sendStatus(204);
     }
+    
     res.status(200).json(posts);
   } catch (error) {
     console.log("Error:", error);
@@ -19,6 +21,15 @@ export const ctrolGetAllPost = (req, res, next) => {
 
 export const ctrolCreatePost = (req, res, next) => {
   const { title, description, image } = req.body;
+  
+  //-------------------------------
+  //!OJO LINEA AGREGADA
+  const errors = validationResult(req)
+  if(errors){
+    return res.status(400).json(errors)
+  }
+  //-------------------------------
+  
   const newPost = {
     title,
     description,

@@ -38,7 +38,7 @@ app.use(express.static("public"));
 //* CON ESTA INSTRUCCION PARA QUE FUNCIONE LOS FORM HTML
 app.use(express.urlencoded({ extended: false }));
 
-app.use(validarPost);
+//app.use(validarPost);
 
 app.get("/", (req, res) => {
   res.sendFile("index.html");
