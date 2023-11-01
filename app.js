@@ -44,19 +44,6 @@ app.get("/", (req, res) => {
   res.sendFile("index.html");
 });
 
-//todo LAS RUTAS ESTAN EN EL ROUTER
-// app.get("/post", ctrolGetAllPost, handlerException);
-// app.post("/post", ctrolCreatePost);
-// app.patch('/',(req,res)=>{
-//     res.send('metodo PATCH')
-// })
-// app.put('/',(req,res)=>{
-//     res.send('metodo PUT')
-// })
-// app.delete('/',(req,res)=>{
-//     res.send('metodo DELETE')
-// })
-
 app.use("/post", postRouter);
 
 //todo SERVIDOR EN ESCUCHA
