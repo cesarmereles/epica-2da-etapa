@@ -1,8 +1,7 @@
 // process.exit(1)
 import { posts } from "../models/post-model.js";
 
-import { validationResult } from "express-validator";
-
+//*LISTA TODOS LOS POST - GET
 export const ctrolGetAllPost = (req, res, next) => {
   //res.status(200).send('metodo GET')
   try {
@@ -22,10 +21,6 @@ export const ctrolGetAllPost = (req, res, next) => {
 //!si hay un error debe ir al manejador de errores
 export const ctrolCreatePost = (req, res, next) => {
   const { title, description, image } = req.body;
-  const errors = validationResult(req);
-  if (errors) {
-    return res.status(400).json(errors);
-  }
 
   const newPost = {
     title,
