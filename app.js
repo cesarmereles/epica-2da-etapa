@@ -8,6 +8,7 @@ import { validarPost } from "./middlewares/validar-create-post.js";
 
 // import { ctrolGetAllPost, ctrolCreatePost } from "./post-controllers.js";
 // import { handlerException } from "./handler-exceptions.js";
+import { env } from "./setting/envs.js";
 
 const app = express();
 
@@ -47,8 +48,9 @@ app.get("/", (req, res) => {
 app.use("/post", postRouter);
 
 //todo SERVIDOR EN ESCUCHA
-app.listen(3000);
-console.log("server on port 3000");
+app.listen(env.PORT, () => {
+  console.log(`server on port ${env.PORT} `);
+});
 
 // GET --> Obtener recursos
 // POST --> Crear recursos
