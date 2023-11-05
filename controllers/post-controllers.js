@@ -1,33 +1,57 @@
 // process.exit(1)
-import { posts } from "../models/post-model.js";
+import { postModel } from "../models/post-model.js";
 
 //*LISTA TODOS LOS POST - GET
 export const ctrolGetAllPost = (req, res, next) => {
-  //res.status(200).send('metodo GET')
   try {
-    //throw new Error("No hay post")
-    //!SI EL POST ENVIADO NO CONTIENE DATOS DEVUELVE 204 SIN CONTENIDO
+    const posts = postModel.findAll();
     if (posts.length < 1) {
       return res.sendStatus(204);
     }
-
-    res.status(200).json(posts);
+    res.json(posts);
   } catch (error) {
     console.log("Error:", error);
     next("No hay Post");
   }
 };
 
-//!si hay un error debe ir al manejador de errores
+//*CREA NUEVOS POST
 export const ctrolCreatePost = (req, res, next) => {
   const { title, description, image } = req.body;
 
-  const newPost = {
-    title,
-    description,
-    image,
-  };
-  posts.push(newPost);
+  //*CREATENEWPOST ES UN METODO QUE VIENE DEL POST-MODEL.JS
+  postModel.create({ title, description, image });
 
   res.sendStatus(201);
+};
+
+//*CREAMOS UN CONTROLADOR PARA OBTENER UN ID
+export const ctrolGetByID = (req, res) => {
+  //console.log(req.params);
+  const { postID } = req.params;
+  console.log(req.params);
+  const posts = postModel.findOne({ id: postID });
+  if (!posts) {
+    return res.sendStatus(404);
+  }
+
+  res.status(200).json(posts);
+};
+
+//*EDITAR
+export const ctrolUpdatePostById = (req, res) => {
+  const { postID } = req.params;
+  const { title, description, image } = req.body;
+  const updatePost = postModel.update(postID, { title, description, image });
+
+  //!SI NO RETORNA NADA
+  if (!updatePost) return res.sendStatus(404);
+  res.sendStatus(200);
+};
+
+//*ELIMINAR
+export const ctrolDeleteById = (req, res) => {
+  const { postID } = req.params;
+  postModel.delete({ id: postID });
+  res.sendStatus(200);
 };
