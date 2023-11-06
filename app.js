@@ -6,9 +6,8 @@ import cors from "cors";
 import { postRouter } from "./routes/post-routes.js";
 import { validarPost } from "./middlewares/validar-create-post.js";
 
-// import { ctrolGetAllPost, ctrolCreatePost } from "./post-controllers.js";
-// import { handlerException } from "./handler-exceptions.js";
 import { env } from "./setting/envs.js";
+import { middlewareGuard } from "./middlewares/middleware-guard.js";
 
 const app = express();
 
@@ -45,7 +44,7 @@ app.get("/", (req, res) => {
   res.sendFile("index.html");
 });
 
-app.use("/post", postRouter);
+app.use("/post", middlewareGuard, postRouter);
 
 //todo SERVIDOR EN ESCUCHA
 app.listen(env.PORT, () => {

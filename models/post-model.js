@@ -1,6 +1,8 @@
+import { v4 as uuid } from "uuid";
+
 let posts = [
   {
-    id: Date.now(),
+    id: uuid(),
     title: "Seguridad Informática",
     description: "curso sobre seguridad informática y virus informáticos",
     image: "https://blog.hubspot.es/hubfs/media/queesseguridadinformatica.jpeg",
@@ -9,7 +11,7 @@ let posts = [
 
 const createNewPost = ({ title, description, image }) => {
   if (!title) return null;
-  const newPost = { id: Date.now(), title, description, image };
+  const newPost = { id: uuid(), title, description, image };
   posts.push(newPost);
 
   return newPost;
