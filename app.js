@@ -3,10 +3,13 @@ import express from "express";
 import morgan from "morgan";
 import helmet from "helmet";
 import cors from "cors";
-import { postRouter } from "./routes/post-routes.js";
-import { validarPost } from "./middlewares/validar-create-post.js";
 
 import { env } from "./setting/envs.js";
+
+import { postRouter } from "./routes/post-routes.js";
+import { userRouter } from "./routes/user-routes.js";
+
+import { validarPost } from "./middlewares/validar-create-post.js";
 import { middlewareGuard } from "./middlewares/middleware-guard.js";
 
 const app = express();
@@ -45,6 +48,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/post", middlewareGuard, postRouter);
+app.use("/user", userRouter);
 
 //todo SERVIDOR EN ESCUCHA
 app.listen(env.PORT, () => {
