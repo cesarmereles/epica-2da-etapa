@@ -10,7 +10,9 @@ import { postRouter } from "./routes/post-routes.js";
 import { userRouter } from "./routes/user-routes.js";
 
 import { validarPost } from "./middlewares/validar-create-post.js";
-import { middlewareGuard } from "./middlewares/middleware-guard.js";
+
+import { middlewareAutentication } from "./middlewares/middleware-autentication.js";
+import { middlewareAutorization } from "./middlewares/middleware-authorization.js";
 
 const app = express();
 
@@ -47,7 +49,7 @@ app.get("/", (req, res) => {
   res.sendFile("index.html");
 });
 
-app.use("/post", middlewareGuard, postRouter);
+app.use("/post", middlewareAutentication, middlewareAutorization, postRouter);
 app.use("/user", userRouter);
 
 //todo SERVIDOR EN ESCUCHA

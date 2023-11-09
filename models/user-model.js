@@ -7,7 +7,15 @@ const createNewUser = async ({ name, email, password }) => {
   //TODO CON LA LIBRERIA BCRYPT GENERAMOS TEXTO ENCRIPTADOS PARA EL PASSWORD
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  const newUser = { id: uuid(), name, email, password: hashedPassword };
+  //TODO  isAdmin: name === "cesar" SI NAME=CESAR ENTONCES ISADMIN ES TRUE SI ES FALSO
+
+  const newUser = {
+    id: uuid(),
+    name,
+    email,
+    password: hashedPassword,
+    isAdmin: name === "cesar",
+  };
 
   listOfUsers.push(newUser);
 
