@@ -5,6 +5,7 @@ import helmet from "helmet";
 import cors from "cors";
 import * as url from "url";
 import fileUpload from "express-fileupload";
+import { createTransport } from "nodemailer";
 
 import path from "node:path";
 import fs from "node:fs/promises";
@@ -80,10 +81,32 @@ app.post("/upload", async (req, res) => {
 app.use("/post", middlewareAutentication, middlewareAutorization, postRouter);
 app.use("/user", userRouter);
 
-//*ENVIAR UN EMAIL
-app.post("/send-email", (req, res) => {
-  res.send("send email");
+const tranporter = createTransport({
+  service: "gmail",
+  host: "smtp.gmail.com",
+  secure: true,
+  auth: {
+    user: "cesarmereles@gmail.com",
+    pass: env.MAIL_PASSWORD,
+  },
 });
+//*ENVIAR UN EMAIL
+app.post("/send-email", async (req, res) => {
+  try {
+    const { destinatario, motivo, mensaje } = req.body;
+    const response = await tranporter.sendMail({
+      from: "cesarmereles@gmail.com",
+      to: destinatario,
+      subject: motivo,
+      text: mensaje,
+    });
+    res.send("send email");
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("error");
+  }
+});
+
 //todo SERVIDOR EN ESCUCHA
 app.listen(env.PORT, () => {
   console.log(`server on port ${env.PORT} `);
