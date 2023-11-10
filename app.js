@@ -3,6 +3,13 @@ import express from "express";
 import morgan from "morgan";
 import helmet from "helmet";
 import cors from "cors";
+import * as url from "url";
+import fileUpload from "express-fileupload";
+
+import path from "node:path";
+import fs from "node:fs/promises";
+//*__dirname ESTO SIGNIFICA DONDE ESTA UBICADO EL ARCHIVO APP.JS
+const __dirname = url.fileURLToPath(new URL(".", import.meta.url));
 
 import { env } from "./setting/envs.js";
 
@@ -22,6 +29,12 @@ const app = express();
 app.use(morgan("dev"));
 app.use(cors());
 app.use(helmet());
+app.use(
+  fileUpload({
+    useTempFiles: true,
+    tempFileDir: "./temp/",
+  })
+);
 //!PARA INSTALAR NPM I CORS HELMET
 //!CORS: PERMITE REALIZAR PETICIONES A OTROS SERVIDORES
 //!HELMET: SON COMO PARCHES DE SEGURIDAD
@@ -49,9 +62,28 @@ app.get("/", (req, res) => {
   res.sendFile("index.html");
 });
 
+//*ESTE POST UPLOAD PARA SUBIR IMAGENES
+app.post("/upload", async (req, res) => {
+  console.log(req.files);
+
+  const { image } = req.files;
+
+  fs.mkdir(path.join(__dirname, "uploads"), { recursive: true });
+
+  await image.mv(path.join(__dirname, "uploads", image.name));
+
+  fs.rm(path.join(__dirname, "temp"), { recursive: true });
+
+  res.send("uploads");
+});
+
 app.use("/post", middlewareAutentication, middlewareAutorization, postRouter);
 app.use("/user", userRouter);
 
+//*ENVIAR UN EMAIL
+app.post("/send-email", (req, res) => {
+  res.send("send email");
+});
 //todo SERVIDOR EN ESCUCHA
 app.listen(env.PORT, () => {
   console.log(`server on port ${env.PORT} `);
