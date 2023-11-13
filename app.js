@@ -50,7 +50,8 @@ app.get("/", (req, res) => {
   res.sendFile("index.html");
 });
 
-app.use("/post", middlewareAutentication, middlewareAutorization, postRouter);
+app.use("/post", postRouter);
+//app.use("/post", middlewareAutentication, middlewareAutorization, postRouter);
 app.use("/user", userRouter);
 
 //todo SERVIDOR EN ESCUCHA

@@ -1,6 +1,21 @@
 // process.exit(1)
 import { postModel } from "../models/post-model.js";
 
+//*CREA NUEVOS POST
+export const ctrolCreatePost = async (req, res, next) => {
+  try {
+    const { title, description, image } = req.body;
+
+    //*CREATENEWPOST ES UN METODO QUE VIENE DEL POST-MODEL.JS
+    const newPost = await postModel.create({ title, description, image });
+
+    res.status(201).json(newPost);
+  } catch (error) {
+    console.log("Error:", error);
+    res.sendStatus(500);
+  }
+};
+
 //*LISTA TODOS LOS POST - GET
 export const ctrolGetAllPost = async (req, res, next) => {
   try {
@@ -11,52 +26,44 @@ export const ctrolGetAllPost = async (req, res, next) => {
     res.json(posts);
   } catch (error) {
     console.log("Error:", error);
-    next("No hay Post");
-  }
-};
-
-//*CREA NUEVOS POST
-export const ctrolCreatePost = async (req, res, next) => {
-  try {
-    const { title, description, image } = req.body;
-
-    //*CREATENEWPOST ES UN METODO QUE VIENE DEL POST-MODEL.JS
-    await postModel.create({ title, description, image });
-
-    res.sendStatus(201);
-  } catch (error) {
-    console.log("Error:", error);
-    next("Error").sendStatus(500);
+    // next("No hay Post");
+    res.sendStatus(500);
   }
 };
 
 //*CREAMOS UN CONTROLADOR PARA OBTENER UN ID
-export const ctrolGetByID = (req, res) => {
-  //console.log(req.params);
-  const { postID } = req.params;
-  console.log(req.params);
-  const posts = postModel.findOne({ id: postID });
-  if (!posts) {
-    return res.sendStatus(404);
-  }
+export const ctrolGetByID = async (req, res) => {
+  try {
+    const { postID } = req.params;
+    const posts = await postModel.findByPk(postID);
+    if (!posts) {
+      return res.sendStatus(404);
+    }
 
-  res.status(200).json(posts);
+    res.status(200).json(posts);
+  } catch (error) {
+    console.log("Error:", error);
+    res.sendStatus(500);
+  }
 };
 
 //*EDITAR
-export const ctrolUpdatePostById = (req, res) => {
+export const ctrolUpdatePostById = async (req, res) => {
   const { postID } = req.params;
   const { title, description, image } = req.body;
-  const updatePost = postModel.update(postID, { title, description, image });
+  const posts = postModel.findByPk(postID);
+  await posts.update({ title, description, image });
 
   //!SI NO RETORNA NADA
   if (!updatePost) return res.sendStatus(404);
-  res.sendStatus(200);
+  res.status(200).json(posts);
 };
 
 //*ELIMINAR
-export const ctrolDeleteById = (req, res) => {
+export const ctrolDeleteById = async (req, res) => {
   const { postID } = req.params;
-  postModel.delete({ id: postID });
-  res.sendStatus(200);
+  const posts = postModel.findByPk(postID);
+  //postModel.delete({ id: postID });
+  await posts.detroy();
+  res.sendStatus(204);
 };

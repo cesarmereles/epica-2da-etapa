@@ -37,50 +37,50 @@ export const postModel = sequelize.define(
   }
 );
 
-const createNewPost = ({ title, description, image }) => {
-  if (!title) return null;
-  const newPost = { id: uuid(), title, description, image };
-  posts.push(newPost);
+// const createNewPost = ({ title, description, image }) => {
+//   if (!title) return null;
+//   const newPost = { id: uuid(), title, description, image };
+//   posts.push(newPost);
 
-  return newPost;
-};
+//   return newPost;
+// };
 
 //*CREAMOS UN METODO PARA OBTENER TODA LA LISTA
-const getAllPost = () => {
-  return [...posts];
-};
+// const getAllPost = () => {
+//   return [...posts];
+// };
 
 //*METODO PARA OBTENER UN SOLO POST
-const getOnePostByID = ({ id }) => {
-  //!DEBO CONVERTIR PRIMERO EL OBJ ID PARA PODER COMPARAR PORQUE SI NO ENVIA STRING
-  const post = posts.find((post) => post.id === id);
+//!DEBO CONVERTIR PRIMERO EL OBJ ID PARA PODER COMPARAR PORQUE SI NO ENVIA STRING
+// const getOnePostByID = ({ id }) => {
+//   const post = posts.find((post) => post.id === id);
 
-  return post;
-};
+//   return post;
+// };
 
 //* BUSCAR UN ID Y SI ENCUENTRA EDITAR
-const findPostIdUpdate = (id, postEdit) => {
-  const post = getOnePostByID({ id });
-  if (!post) return null;
-  posts = posts.map((post) => {
-    if (post.id === id) {
-      //*SU EL ID SON IGUALES
-      if (postEdit.title) post.title = postEdit.title;
-      if (postEdit.description) post.description = postEdit.description;
-      if (postEdit.image) post.image = postEdit.image;
+// const findPostIdUpdate = (id, postEdit) => {
+//   const post = getOnePostByID({ id });
+//   if (!post) return null;
+//   posts = posts.map((post) => {
+//     if (post.id === id) {
+//       //*SU EL ID SON IGUALES
+//       if (postEdit.title) post.title = postEdit.title;
+//       if (postEdit.description) post.description = postEdit.description;
+//       if (postEdit.image) post.image = postEdit.image;
 
-      return post;
-    }
-    return post;
-  });
-  //*ACA RETORNAMOS LA NUEVA INFORMACION
-  return { ...post, ...postEdit };
-};
+//       return post;
+//     }
+//     return post;
+//   });
+//*ACA RETORNAMOS LA NUEVA INFORMACION
+//   return { ...post, ...postEdit };
+// };
 
 //* BUSCAR UN ID Y SI ENCUENTRA ELIMINAR
-const findPostIdDelete = ({ id }) => {
-  posts = posts.filter((post) => post.id !== id);
-};
+// const findPostIdDelete = ({ id }) => {
+//   posts = posts.filter((post) => post.id !== id);
+// };
 
 // export const postModel = {
 //   create: createNewPost,
