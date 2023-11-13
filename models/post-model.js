@@ -1,13 +1,41 @@
+import { sequelize } from "../setting/database.js";
+import { DataTypes } from "sequelize";
 import { v4 as uuid } from "uuid";
 
-let posts = [
+// let posts = [
+//   {
+//     id: uuid(),
+//     title: "Seguridad Informática",
+//     description: "curso sobre seguridad informática y virus informáticos",
+//     image: "https://blog.hubspot.es/hubfs/media/queesseguridadinformatica.jpeg",
+//   },
+// ];
+export const postModel = sequelize.define(
+  "Posts",
   {
-    id: uuid(),
-    title: "Seguridad Informática",
-    description: "curso sobre seguridad informática y virus informáticos",
-    image: "https://blog.hubspot.es/hubfs/media/queesseguridadinformatica.jpeg",
+    id: {
+      type: DataTypes.UUID,
+      defaultValue: uuid,
+      primaryKey: true,
+    },
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },
+    description: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    image: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   },
-];
+  {
+    timestamps: true,
+  }
+);
 
 const createNewPost = ({ title, description, image }) => {
   if (!title) return null;
@@ -54,10 +82,10 @@ const findPostIdDelete = ({ id }) => {
   posts = posts.filter((post) => post.id !== id);
 };
 
-export const postModel = {
-  create: createNewPost,
-  findAll: getAllPost,
-  findOne: getOnePostByID,
-  update: findPostIdUpdate,
-  delete: findPostIdDelete,
-};
+// export const postModel = {
+//   create: createNewPost,
+//   findAll: getAllPost,
+//   findOne: getOnePostByID,
+//   update: findPostIdUpdate,
+//   delete: findPostIdDelete,
+// };

@@ -5,6 +5,7 @@ import helmet from "helmet";
 import cors from "cors";
 
 import { env } from "./setting/envs.js";
+import { starConnection } from "./setting/database.js";
 
 import { postRouter } from "./routes/post-routes.js";
 import { userRouter } from "./routes/user-routes.js";
@@ -53,7 +54,9 @@ app.use("/post", middlewareAutentication, middlewareAutorization, postRouter);
 app.use("/user", userRouter);
 
 //todo SERVIDOR EN ESCUCHA
-app.listen(env.PORT, () => {
+app.listen(env.PORT, async () => {
+  //*MIENTRAS ESCUCHO EL SERVIDOR INICIO LA CONEXION A BD
+  await starConnection();
   console.log(`server on port ${env.PORT} `);
 });
 
