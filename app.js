@@ -21,6 +21,7 @@ import { validarPost } from "./middlewares/validar-create-post.js";
 
 import { middlewareAutentication } from "./middlewares/middleware-autentication.js";
 import { middlewareAutorization } from "./middlewares/middleware-authorization.js";
+import { startConnection } from "./setting/database.js";
 
 const app = express();
 
@@ -79,6 +80,7 @@ app.post("/upload", async (req, res) => {
 });
 
 app.use("/post", middlewareAutentication, middlewareAutorization, postRouter);
+//app.use("/post", postRouter);
 app.use("/user", userRouter);
 
 const tranporter = createTransport({
@@ -108,7 +110,8 @@ app.post("/send-email", async (req, res) => {
 });
 
 //todo SERVIDOR EN ESCUCHA
-app.listen(env.PORT, () => {
+app.listen(env.PORT, async () => {
+  await startConnection();
   console.log(`server on port ${env.PORT} `);
 });
 

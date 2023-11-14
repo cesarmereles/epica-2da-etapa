@@ -11,7 +11,7 @@ export const ctrlRegister = async (req, res) => {
 
   //*SI EL USUARIO SE CREO CORRECTAMENTE LO QUE DEVUELVO ES UN TOKEN
   const token = jwt.sign({ id: newUser.id }, "secret");
-  res.status(201).json({ token });
+  res.status(201).json({ token, newUser });
 };
 export const ctrlLogin = async (req, res) => {
   const { email, password } = req.body;
